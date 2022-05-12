@@ -3,10 +3,12 @@ package sk.stuba.fei.uim.oop.assignment3.autor.data;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import sk.stuba.fei.uim.oop.assignment3.autor.web.bodies.AutorRequest;
+import sk.stuba.fei.uim.oop.assignment3.book.data.Book;
+
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Entity
@@ -21,6 +23,12 @@ public class Autor {
 
     private String surname;
 
-    private Long books;
+    @OneToMany
+    private List<Book> books;
 
+    public Autor (AutorRequest request){
+        this.name=request.getName();
+        this.surname=request.getSurname();
+        this.books=new ArrayList<>();
+    }
 }
