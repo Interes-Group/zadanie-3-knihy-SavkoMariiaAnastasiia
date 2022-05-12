@@ -6,6 +6,8 @@ import org.springframework.stereotype.Service;
 import sk.stuba.fei.uim.oop.assignment3.autor.data.Autor;
 import sk.stuba.fei.uim.oop.assignment3.autor.data.AutorRepository;
 import sk.stuba.fei.uim.oop.assignment3.autor.web.bodies.AutorRequest;
+import sk.stuba.fei.uim.oop.assignment3.book.data.Book;
+import sk.stuba.fei.uim.oop.assignment3.book.data.BookRepository;
 import sk.stuba.fei.uim.oop.assignment3.exception.NotFoundException;
 
 import java.util.List;
@@ -14,9 +16,17 @@ import java.util.List;
 public class AutorService implements IAutorService{
     @Autowired
     private AutorRepository repository;
+    @Autowired
+    private BookRepository repositorbook;
 
     @Override
     public void delete(Long id) throws NotFoundException {
+        //todo najst zoznam knih knihu odstranit zo zonamu a vymazat knihu a na konce vymazam autora
+        for (int i=repository.findAutorById(id).getBooks().size()-1;i>=0;i--){
+            Book b=repository.findAutorById(id).getBooks().get(i);
+            repository.findAutorById(id).getBooks().remove(i);//odstranim zo zoznamu
+            repositorbook.delete(b);
+        }
         this.repository.delete(this.getById(id));
     }
 

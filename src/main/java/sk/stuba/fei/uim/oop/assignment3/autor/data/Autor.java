@@ -2,6 +2,7 @@ package sk.stuba.fei.uim.oop.assignment3.autor.data;
 
 
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import sk.stuba.fei.uim.oop.assignment3.autor.web.bodies.AutorRequest;
 import sk.stuba.fei.uim.oop.assignment3.book.data.Book;
@@ -24,8 +25,8 @@ public class Autor {
     private String surname;
 
     @OneToMany
+    @Getter
     private List<Book> books;
-
     public Autor (AutorRequest request){
         this.name=request.getName();
         this.surname=request.getSurname();

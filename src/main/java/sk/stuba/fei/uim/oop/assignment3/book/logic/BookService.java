@@ -3,6 +3,8 @@ package sk.stuba.fei.uim.oop.assignment3.book.logic;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import sk.stuba.fei.uim.oop.assignment3.autor.data.Autor;
+import sk.stuba.fei.uim.oop.assignment3.autor.data.AutorRepository;
 import sk.stuba.fei.uim.oop.assignment3.book.data.Book;
 import sk.stuba.fei.uim.oop.assignment3.book.data.BookRepository;
 import sk.stuba.fei.uim.oop.assignment3.book.web.bodies.BookRequest;
@@ -15,9 +17,15 @@ public class BookService implements IBookService {
 
     @Autowired
     private BookRepository repository;
+    @Autowired
+    private AutorRepository repositar;
 
     @Override
     public void delete(Long id) throws NotFoundException {
+        //todo najdi autora vymaz eho z listu a potom vymazat sam seba
+        Book book = this.getById(id);
+        Autor a = repositar.findAutorById(book.getAuthor());
+        a.getBooks().remove(book);
         this.repository.delete(this.getById(id));
     }
 
@@ -60,8 +68,15 @@ public class BookService implements IBookService {
     }
 
     @Override
-    public Book create(BookRequest body) {
-        return this.repository.save(new Book(body));
+    public Book create(BookRequest body) throws NotFoundException{
+        // TODO: 12.05.2022 ci existuje autor pridat autorovi knihu
+        if (repositar.findAutorById(body.getAuthor()) == null){
+            throw new NotFoundException();
+        }
+        Autor o = repositar.findAutorById(body.getAuthor());
+        Book c=new Book(body);
+        o.getBooks().add(c);
+        return this.repository.save(c);
     }
 
     @Override
