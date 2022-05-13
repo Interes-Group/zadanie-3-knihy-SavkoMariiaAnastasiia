@@ -7,8 +7,8 @@ import sk.stuba.fei.uim.oop.assignment3.book.data.Book;
 import sk.stuba.fei.uim.oop.assignment3.book.logic.IBookService;
 import sk.stuba.fei.uim.oop.assignment3.exception.IllegalOperationException;
 import sk.stuba.fei.uim.oop.assignment3.exception.NotFoundException;
-import sk.stuba.fei.uim.oop.assignment3.list.data.ILendListRepo;
-import sk.stuba.fei.uim.oop.assignment3.list.data.LendList;
+import sk.stuba.fei.uim.oop.assignment3.list.data.ListClassRepo;
+import sk.stuba.fei.uim.oop.assignment3.list.data.ListClass;
 import sk.stuba.fei.uim.oop.assignment3.list.web.bodies.BookIdRequest;
 
 
@@ -16,33 +16,33 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class LendListService implements ILendListService {
+public class ListClassService implements IListClassService {
 
     @Autowired
-    private final ILendListRepo repository;
+    private final ListClassRepo repository;
 
     @Autowired
     private IBookService booksService;
 
     @Autowired
-    public LendListService(ILendListRepo repository) {
+    public ListClassService(ListClassRepo repository) {
         this.repository = repository;
     }
 
     @Override
-    public List<LendList> getAll() {
+    public List<ListClass> getAll() {
         return this.repository.findAll();
     }
 
 
     @Override
-    public LendList create() {
-        return this.repository.save(new LendList());
+    public ListClass create() {
+        return this.repository.save(new ListClass());
     }
 
     @Override
-    public LendList getById(long id) throws NotFoundException {
-        Optional<LendList> list = this.repository.findById(id);
+    public ListClass getById(long id) throws NotFoundException {
+        Optional<ListClass> list = this.repository.findById(id);
         if (list.isEmpty()) {
             throw new NotFoundException();
 
@@ -52,9 +52,9 @@ public class LendListService implements ILendListService {
     }
 
     @Override
-    public LendList addBook(long id, BookIdRequest bookId) throws NotFoundException, IllegalOperationException {
+    public ListClass addBook(long id, BookIdRequest bookId) throws NotFoundException, IllegalOperationException {
 
-        Optional<LendList> list = this.repository.findById(id);
+        Optional<ListClass> list = this.repository.findById(id);
         Optional<Book> book = Optional.ofNullable(this.booksService.getById((long)bookId.getBookId()));
         if (book.isEmpty() || list.isEmpty()) {
             throw new NotFoundException();
@@ -71,7 +71,7 @@ public class LendListService implements ILendListService {
 
     @Override
     public void removeBook(long id, BookIdRequest bookId) throws NotFoundException {
-        Optional<LendList> list = this.repository.findById(id);
+        Optional<ListClass> list = this.repository.findById(id);
         Optional<Book> book = Optional.ofNullable(this.booksService.getById((long)bookId.getBookId()));
         if (book.isEmpty() || list.isEmpty() || !list.get().getLendingList().contains(book.get())) {
             throw new NotFoundException();
@@ -82,7 +82,7 @@ public class LendListService implements ILendListService {
 
     @Override
     public void lendBook(long listId) throws NotFoundException, IllegalOperationException {
-        Optional<LendList> list = this.repository.findById(listId);
+        Optional<ListClass> list = this.repository.findById(listId);
         if (list.isEmpty()) {
             throw new NotFoundException();
         }
@@ -99,7 +99,7 @@ public class LendListService implements ILendListService {
 
     @Override
     public void deleteList(long listId) throws NotFoundException {
-        Optional<LendList> list = this.repository.findById(listId);
+        Optional<ListClass> list = this.repository.findById(listId);
         if (list.isEmpty()) {
             throw new NotFoundException();
         }

@@ -7,45 +7,45 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import sk.stuba.fei.uim.oop.assignment3.exception.IllegalOperationException;
 import sk.stuba.fei.uim.oop.assignment3.exception.NotFoundException;
-import sk.stuba.fei.uim.oop.assignment3.list.data.LendList;
-import sk.stuba.fei.uim.oop.assignment3.list.logic.LendListService;
+import sk.stuba.fei.uim.oop.assignment3.list.data.ListClass;
+import sk.stuba.fei.uim.oop.assignment3.list.logic.ListClassService;
 import sk.stuba.fei.uim.oop.assignment3.list.web.bodies.BookIdRequest;
-import sk.stuba.fei.uim.oop.assignment3.list.web.bodies.LendListResponse;
+import sk.stuba.fei.uim.oop.assignment3.list.web.bodies.ListClassResponse;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/list")
-public class LendListController {
+public class ListClassController {
 
     @Autowired
-    private LendListService service;
+    private ListClassService service;
 
     @PostMapping()
-    public ResponseEntity<LendListResponse> addLendList(){
-        return new ResponseEntity<>(new LendListResponse(this.service.create()), HttpStatus.CREATED);
+    public ResponseEntity<ListClassResponse> addLendList(){
+        return new ResponseEntity<>(new ListClassResponse(this.service.create()), HttpStatus.CREATED);
     }
 
     @GetMapping()
-    public List<LendListResponse> getLendLists(){
-        return this.service.getAll().stream().map(LendListResponse::new).collect(Collectors.toList());
+    public List<ListClassResponse> getLendLists(){
+        return this.service.getAll().stream().map(ListClassResponse::new).collect(Collectors.toList());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<LendListResponse> getLendList(@PathVariable("id") Long id){
+    public ResponseEntity<ListClassResponse> getLendList(@PathVariable("id") Long id){
         try {
-            return new ResponseEntity<>(new LendListResponse(this.service.getById(id)), HttpStatus.OK);
+            return new ResponseEntity<>(new ListClassResponse(this.service.getById(id)), HttpStatus.OK);
         } catch (NotFoundException e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 
     @PostMapping("/{id}/add")
-    public ResponseEntity<LendListResponse> addBookToList(@PathVariable("id") long listId, @RequestBody BookIdRequest id){
+    public ResponseEntity<ListClassResponse> addBookToList(@PathVariable("id") long listId, @RequestBody BookIdRequest id){
         try {
-            LendList list = this.service.addBook(listId,id);
-            return new ResponseEntity<>(new LendListResponse(list), HttpStatus.OK);
+            ListClass list = this.service.addBook(listId,id);
+            return new ResponseEntity<>(new ListClassResponse(list), HttpStatus.OK);
         } catch (NotFoundException e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         } catch(IllegalOperationException f) {

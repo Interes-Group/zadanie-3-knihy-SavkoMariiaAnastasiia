@@ -15,7 +15,7 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
-public class LendList {
+public class ListClass {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,7 +26,7 @@ public class LendList {
 
     private boolean lended;
 
-    public LendList() {
+    public ListClass() {
         this.lendingList = new ArrayList<>();
         this.lended = false;
     }
