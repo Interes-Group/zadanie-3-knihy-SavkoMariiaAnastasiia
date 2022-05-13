@@ -2,7 +2,8 @@ package sk.stuba.fei.uim.oop.assignment3.list.data;
 
 
 import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
 import sk.stuba.fei.uim.oop.assignment3.book.data.Book;
 
 import javax.persistence.*;
@@ -10,16 +11,24 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-@Entity
 @Data
-@NoArgsConstructor
+@Entity
+@Getter
+@Setter
+public class LendList {
 
-public class ListClass {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @OneToMany
-    private java.util.List<Book> lendingList=new ArrayList<>();
-    private Boolean lended=false;
+
+    @ManyToMany
+    private List<Book> lendingList;
+
+    private boolean lended;
+
+    public LendList() {
+        this.lendingList = new ArrayList<>();
+        this.lended = false;
+    }
 
 }
