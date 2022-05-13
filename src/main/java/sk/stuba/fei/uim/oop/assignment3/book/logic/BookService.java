@@ -22,7 +22,6 @@ public class BookService implements IBookService {
 
     @Override
     public void delete(Long id) throws NotFoundException {
-        //todo najdi autora vymaz eho z listu a potom vymazat sam seba
         Book book = this.getById(id);
         Autor a = repositar.findAutorById(book.getAuthor());
         a.getBooks().remove(book);
@@ -69,7 +68,6 @@ public class BookService implements IBookService {
 
     @Override
     public Book create(BookRequest body) throws NotFoundException{
-        // TODO: 12.05.2022 ci existuje autor pridat autorovi knihu
         if (repositar.findAutorById(body.getAuthor()) == null){
             throw new NotFoundException();
         }

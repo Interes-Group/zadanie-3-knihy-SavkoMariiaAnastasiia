@@ -21,7 +21,6 @@ public class AutorService implements IAutorService{
 
     @Override
     public void delete(Long id) throws NotFoundException {
-        //todo najst zoznam knih knihu odstranit zo zonamu a vymazat knihu a na konce vymazam autora
         Autor a = this.repository.findAutorById(id);
         if(a==null){
             throw new NotFoundException();
