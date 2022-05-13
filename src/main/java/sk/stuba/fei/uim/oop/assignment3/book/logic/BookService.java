@@ -11,6 +11,7 @@ import sk.stuba.fei.uim.oop.assignment3.book.web.bodies.BookRequest;
 import sk.stuba.fei.uim.oop.assignment3.exception.NotFoundException;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class BookService implements IBookService {
@@ -91,5 +92,12 @@ public class BookService implements IBookService {
         p.setAmount(p.getAmount() + increment);
         this.repository.save(p);
         return p.getAmount();
+    }
+    public int getLendCount(long productId) throws NotFoundException {
+        Optional<Book> book= repository.findById(productId);
+        if (book.isEmpty()){
+            throw new NotFoundException();
+        }
+        return book.get().getLendCount();
     }
 }

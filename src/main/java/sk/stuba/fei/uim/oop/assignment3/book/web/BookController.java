@@ -55,4 +55,13 @@ public class BookController {
     public BookAmount addAmount(@PathVariable("id") Long productId, @RequestBody BookAmount body) throws NotFoundException {
         return new BookAmount(this.service.addAmount(productId, body.getAmount()));
     }
+    @GetMapping(value = "/{id}/lendCount")
+    public ResponseEntity<BookAmount> getLendCount(@PathVariable("id") long productId){
+        try {
+            int amount = this.service.getLendCount(productId);
+            return new ResponseEntity<>(new BookAmount(amount), HttpStatus.OK);
+        } catch (NotFoundException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
 }

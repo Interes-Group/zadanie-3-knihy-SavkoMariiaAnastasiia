@@ -14,4 +14,5 @@ public interface IBookService {
     Book create (BookRequest body) throws NotFoundException;
     int getBookAmount(Long id) throws NotFoundException;
     int addAmount(long id, int increment) throws NotFoundException;
+    int getLendCount(long productId) throws NotFoundException;
 }
