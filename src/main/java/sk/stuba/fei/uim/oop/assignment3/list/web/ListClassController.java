@@ -27,4 +27,13 @@ public class ListClassController {
         return this.service.getAll().stream().map(ListClassResponse::new).collect(Collectors.toList());
     }
 
+    @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<ListClassResponse> addList() {
+        return new ResponseEntity<>(new ListClassResponse(this.service.create()), HttpStatus.CREATED);
+    }
+
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<ListClassResponse> getAllList() {
+        return this.service.getAll().stream().map(ListClassResponse::new).collect(Collectors.toList());
+    }
 }
